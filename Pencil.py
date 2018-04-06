@@ -22,3 +22,6 @@ class Pencil(object):
                 self.point_durability -= 2
             else:
                 self.point_durability -= 1
+
+    def sharpen(self):
+        self.point_durability = self.start_point_durability

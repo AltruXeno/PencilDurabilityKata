@@ -28,6 +28,15 @@ class TestPencilDurability(unittest.TestCase):
 
         return score
 
+    # Returns a string of random letters of length character_count
+    def get_randomized_string(self, character_count):
+        # Fill the string with random characters
+        randomized_string = ""
+        for i in range(character_count):
+            randomized_string += random.choice(string.ascii_lowercase)
+
+        return randomized_string
+
     # Tests if single string is correctly written to piece of paper
     def test_write_one_string(self):
         string_to_write = "which"
@@ -84,15 +93,25 @@ class TestPencilDurability(unittest.TestCase):
         number_of_characters = 20
 
         # Fill the string with random characters
-        string_to_write = ""
-        for i in range(number_of_characters):
-            string_to_write += random.choice(string.ascii_lowercase)
+        string_to_write = self.get_randomized_string(number_of_characters)
 
         self.pencil.write(self.paper, string_to_write)
 
         paper_text_count = len(self.paper.text.strip())
 
         self.assertEqual(paper_text_count, number_of_characters - self.pencil.start_point_durability)
+
+    def test_pencil_sharpening_resets_point_durability(self):
+        self.pencil = Pencil(10)
+        number_of_characters = 10
+
+        string_to_write = self.get_randomized_string(number_of_characters)
+
+        self.pencil.write(self.paper, string_to_write)
+
+        self.pencil.sharpen()
+
+        self.assertEqual(self.pencil.start_point_durability, self.pencil.point_durability)
 
 
 if __name__ == "__main__":
