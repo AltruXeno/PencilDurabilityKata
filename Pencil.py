@@ -7,4 +7,9 @@ class Pencil(object):
 
         for letter in string_to_write:
             paper.text += letter
+
+            # Don't degrade the pencil if the letter is a specified whitespace
+            if letter == ' ' or letter == '\n':
+                continue
+
             self.point_durability -= 1
