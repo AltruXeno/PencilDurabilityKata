@@ -115,18 +115,29 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(self.pencil.start_point_durability, self.pencil.point_durability)
 
-    # Test to ensure that length of pencil is decreased when sharpened
+    # Test to ensure that pencil cannot be sharpened when length is zero
     def test_pencil_sharpening_decreases_pencil_length(self):
         pencil_length = self.pencil.length
-        string_to_write = self.get_randomized_string(10)
         times_to_sharpen = 2
-
-        self.pencil.write(self.paper, string_to_write)
 
         for i in range(times_to_sharpen):
             self.pencil.sharpen()
 
         self.assertEqual(self.pencil.length, pencil_length - times_to_sharpen)
+
+    # Test to ensure that pencil cannot be sharpened when length is zero
+    def test_pencil_zero_length_prohibits_sharpen(self):
+        pencil_length = self.pencil.length
+        string_to_write = self.get_randomized_string(10)
+
+        for i in range(pencil_length):
+            self.pencil.sharpen()
+
+        self.pencil.write(self.paper, string_to_write)
+
+        self.pencil.sharpen()
+
+        self.assertNotEquals(self.pencil.start_point_durability, self.pencil.point_durability)
 
 
 if __name__ == "__main__":
