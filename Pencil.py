@@ -12,4 +12,7 @@ class Pencil(object):
             if letter == ' ' or letter == '\n':
                 continue
 
-            self.point_durability -= 1
+            if letter.isupper():
+                self.point_durability -= 2
+            else:
+                self.point_durability -= 1

@@ -10,6 +10,22 @@ class TestPencilDurability(unittest.TestCase):
         self.pencil = Pencil()
         self.paper = Paper()
 
+    def determine_expected_score(self, string_to_write):
+        score = 0
+
+        # Remove the specified whitespaces from the string and see how many characters remain
+        string_without_whitespaces = string_to_write.replace(' ', '').replace('\n', '')
+
+        # Determine the score -- capital letters are worth 2 while lowercase letters are worth 1.
+        # Non-alphanumeric characters were not specified and will be worth one point as well.
+        for character in string_without_whitespaces:
+            if character.isupper():
+                score += 2
+            else:
+                score += 1
+
+        return score
+
     # Tests if single string is correctly written to piece of paper
     def test_write_one_string(self):
         string_to_write = "which"
@@ -43,12 +59,21 @@ class TestPencilDurability(unittest.TestCase):
         point_durability = self.pencil.point_durability
 
         # Remove the specified whitespaces from the string and see how many characters remain
-        string_without_whitespaces = string_to_write.replace(' ', '').replace('\n', '')
-        number_of_characters = len(string_without_whitespaces)
+        expected_score = self.determine_expected_score(string_to_write)
 
         self.pencil.write(self.paper, string_to_write)
 
-        self.assertEqual(self.pencil.point_durability, point_durability - number_of_characters)
+        self.assertEqual(self.pencil.point_durability, point_durability - expected_score)
+
+    def test_pencil_point_durability_degradation_character_case(self):
+        string_to_write = "Which wrist watches are Swiss wrist watches?"
+        point_durability = self.pencil.point_durability
+
+        expected_score = self.determine_expected_score(string_to_write)
+
+        self.pencil.write(self.paper, string_to_write)
+
+        self.assertEqual(self.pencil.point_durability, point_durability - expected_score)
 
 
 if __name__ == "__main__":
