@@ -1,8 +1,9 @@
 
 class Pencil(object):
-    def __init__(self, point_durability=100):
+    def __init__(self, point_durability=100, length=3):
         self.start_point_durability = point_durability
         self.point_durability = point_durability
+        self.length = length
 
     def write(self, paper, string_to_write):
 
@@ -25,3 +26,4 @@ class Pencil(object):
 
     def sharpen(self):
         self.point_durability = self.start_point_durability
+        self.length -= 1

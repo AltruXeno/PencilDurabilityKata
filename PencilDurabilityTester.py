@@ -1,6 +1,7 @@
 import unittest
 import random
 import string
+import math
 from Pencil import Pencil
 from Paper import Paper
 
@@ -101,6 +102,7 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(paper_text_count, number_of_characters - self.pencil.start_point_durability)
 
+    # Test that makes sure the point durability is reset when pencil is sharpened
     def test_pencil_sharpening_resets_point_durability(self):
         self.pencil = Pencil(10)
         number_of_characters = 10
@@ -112,6 +114,19 @@ class TestPencilDurability(unittest.TestCase):
         self.pencil.sharpen()
 
         self.assertEqual(self.pencil.start_point_durability, self.pencil.point_durability)
+
+    # Test to ensure that length of pencil is decreased when sharpened
+    def test_pencil_sharpening_decreases_pencil_length(self):
+        pencil_length = self.pencil.length
+        string_to_write = self.get_randomized_string(10)
+        times_to_sharpen = 2
+
+        self.pencil.write(self.paper, string_to_write)
+
+        for i in range(times_to_sharpen):
+            self.pencil.sharpen()
+
+        self.assertEqual(self.pencil.length, pencil_length - times_to_sharpen)
 
 
 if __name__ == "__main__":
