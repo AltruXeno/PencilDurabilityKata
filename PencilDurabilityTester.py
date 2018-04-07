@@ -214,5 +214,19 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(self.paper.text, expected_string)
 
+    # Test to ensure pencils can edit previously erased text
+    def test_pencil_edit_inserts_at_previously_erased_text(self):
+        string_to_write = "which wrist watches"
+        string_to_erase = "wrist"
+        string_to_insert = "ankle"
+
+        expected_string = string_to_write.replace(string_to_erase, string_to_insert)
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+        self.pencil.edit(self.paper, string_to_insert)
+
+        self.assertEqual(self.paper.text, expected_string)
+
 if __name__ == "__main__":
     unittest.main()

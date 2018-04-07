@@ -1,4 +1,4 @@
-
+import re
 
 class Pencil(object):
     def __init__(self, point_durability=100, length=3, eraser_durability=100):
@@ -42,9 +42,8 @@ class Pencil(object):
         refactored_string = paper_text_pieces[0]
 
         erased_characters = ''
-        #print(string_to_erase[::-1])
         for letter in string_to_erase[::-1]:
-            #print(letter)
+
             # If the eraser durability is 0 or the letter is a whitespace, write the letter and continue
             if self.eraser_durability <= 0 or letter.isspace():
                 erased_characters = letter + erased_characters
@@ -59,3 +58,12 @@ class Pencil(object):
             refactored_string += paper_text_pieces[1]
 
         paper.text = refactored_string
+
+    def edit(self, paper, string_to_insert):
+        paper_text_pieces = re.split(r'\W\W+', paper.text, 1)
+
+        paper.text = paper_text_pieces[0].strip() + ' '
+        paper.text += string_to_insert
+        if len(paper_text_pieces) > 1:
+            paper.text += ' ' + paper_text_pieces[1].strip()
+
