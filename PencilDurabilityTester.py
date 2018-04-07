@@ -163,7 +163,7 @@ class TestPencilDurability(unittest.TestCase):
         self.assertNotEqual(self.paper.text.rfind(string_to_erase), -1)
 
     # Test to see erasing characters decreases eraser durability
-    def test_erase_text_decreases_erasor_durability(self):
+    def test_erase_text_decreases_eraser_durability(self):
         string_to_write = "which wrist watches are swiss wrist watches"
         string_to_erase = "wrist"
         eraser_durability = self.pencil.eraser_durability
@@ -199,6 +199,20 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(self.pencil.eraser_durability, eraser_durability - expected_score)
 
+    # Test to ensure that characters are erased from right to left
+    def test_eraser_erases_characters_right_to_left(self):
+        test_durability = 3
+        self.pencil = Pencil(eraser_durability=test_durability)
+        string_to_write = "which"
+        string_to_erase = "which"
+
+        expected_string = string_to_write[:-test_durability]
+        expected_string += ' ' * test_durability
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+
+        self.assertEqual(self.paper.text, expected_string)
 
 if __name__ == "__main__":
     unittest.main()
