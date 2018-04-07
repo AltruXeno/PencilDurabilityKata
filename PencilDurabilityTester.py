@@ -228,5 +228,18 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(self.paper.text, expected_string)
 
+    # Test to make sure that it isn't a magic pencil and editing text costs point durability
+    def test_pencil_edit_decreases_point_durability(self):
+        string_to_write = "which wrist watches"
+        string_to_erase = "wrist"
+        string_to_insert = "ankle"
+
+        self.pencil.write(self.paper, string_to_write)
+        point_durability = self.pencil.point_durability
+        self.pencil.erase(self.paper, string_to_erase)
+        self.pencil.edit(self.paper, string_to_insert)
+
+        self.assertEqual(self.pencil.point_durability, point_durability - len(string_to_insert))
+
 if __name__ == "__main__":
     unittest.main()

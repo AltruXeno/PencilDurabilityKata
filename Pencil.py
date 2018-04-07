@@ -63,7 +63,10 @@ class Pencil(object):
         paper_text_pieces = re.split(r'\W\W+', paper.text, 1)
 
         paper.text = paper_text_pieces[0].strip() + ' '
-        paper.text += string_to_insert
+
+        for letter in string_to_insert:
+            self.write(paper, letter)
+
         if len(paper_text_pieces) > 1:
             paper.text += ' ' + paper_text_pieces[1].strip()
 
