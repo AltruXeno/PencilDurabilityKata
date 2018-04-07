@@ -185,7 +185,19 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(self.paper.text.count(' '), test_durability)
 
+    # Test to ensure that eraser durability not decreased when "erasing" whitespace
+    def test_eraser_durability_ignores_whitespaces(self):
+        string_to_write = "which wrist watches are swiss"
+        string_to_erase = "wrist watches are"
+        eraser_durability = self.pencil.eraser_durability
 
+        # Remove the specified whitespaces from the string and see how many characters remain
+        expected_score = len(string_to_erase.replace(' ', ''))
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+
+        self.assertEqual(self.pencil.eraser_durability, eraser_durability - expected_score)
 
 
 if __name__ == "__main__":

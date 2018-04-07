@@ -40,8 +40,10 @@ class Pencil(object):
 
         paper_text_pieces = paper.text.rsplit(string_to_erase, 1)
         refactored_string = paper_text_pieces[0]
+
         for letter in string_to_erase:
-            if self.eraser_durability <= 0:
+            # If the eraser durability is 0 or the letter is a whitespace, write the letter and continue
+            if self.eraser_durability <= 0 or letter.isspace():
                 refactored_string += letter
                 continue
 
