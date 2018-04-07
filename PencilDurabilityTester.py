@@ -139,6 +139,17 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertNotEquals(self.pencil.start_point_durability, self.pencil.point_durability)
 
+    # Test erasing a word from the page text
+    def test_erase_single_word_from_text(self):
+        string_to_write = "which wrist watches"
+        string_to_erase = "wrist"
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+
+        self.assertEqual(self.paper.text.find(string_to_erase), -1)
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -30,3 +30,7 @@ class Pencil(object):
 
         self.point_durability = self.start_point_durability
         self.length -= 1
+
+    def erase(self, paper, string_to_erase):
+        empty_string = ' ' * len(string_to_erase)
+        paper.text = paper.text.replace(string_to_erase, empty_string)
