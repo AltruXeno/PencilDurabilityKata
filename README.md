@@ -13,7 +13,6 @@ A Python interpreter:
 
 1. Clone repository
 2. Run PencilDurabilityTester.py:
-* Double-click PencilDurabilityTester.py
 * python ./PencilDurabilityTester.py (Requires adding python.exe to path)
 * C:\Python27\python.exe ./PencilDurabilityTester.py (Python 2.7)
 * C:\Users\[USER]\AppData\Local\Programs\Python\Python36\python.exe ./PencilDurabilityTester.py (Python 3.6)

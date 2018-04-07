@@ -1,7 +1,6 @@
 import unittest
 import random
 import string
-import math
 from Pencil import Pencil
 from Paper import Paper
 
@@ -269,7 +268,7 @@ class TestPencilDurability(unittest.TestCase):
         text_pieces = string_to_write.split(string_to_erase)
         expected_string = text_pieces[0]
 
-        # determine where the conflicts are
+        # Determine where the conflicts are
         expected_string += string_to_insert[:len(string_to_erase)]
         remaining_string_to_insert = string_to_insert[len(string_to_erase):]
         for i in range(len(remaining_string_to_insert)):
@@ -285,7 +284,6 @@ class TestPencilDurability(unittest.TestCase):
         self.pencil.edit(self.paper, string_to_insert)
 
         self.assertEqual(self.paper.text, expected_string)
-
 
 
 if __name__ == "__main__":
