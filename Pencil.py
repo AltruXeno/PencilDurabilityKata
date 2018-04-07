@@ -1,10 +1,10 @@
 
 
 class Pencil(object):
-    def __init__(self, point_durability=100, length=3):
+    def __init__(self, point_durability=100, length=3, eraser_durability=100):
         self.start_point_durability = point_durability
         self.point_durability = point_durability
-        self.eraser_durability = 100
+        self.eraser_durability = eraser_durability
         self.length = length
 
     def write(self, paper, string_to_write):
@@ -13,7 +13,7 @@ class Pencil(object):
             # If we have no point durability left, simply write a space
             if self.point_durability <= 0:
                 paper.text += ' '
-                continue
+                break
 
             paper.text += letter
 
@@ -41,6 +41,10 @@ class Pencil(object):
         paper_text_pieces = paper.text.rsplit(string_to_erase, 1)
         refactored_string = paper_text_pieces[0]
         for letter in string_to_erase:
+            if self.eraser_durability <= 0:
+                refactored_string += letter
+                continue
+
             refactored_string += " "
             self.eraser_durability -= 1
 

@@ -173,6 +173,18 @@ class TestPencilDurability(unittest.TestCase):
 
         self.assertEqual(self.pencil.eraser_durability, eraser_durability - len(string_to_erase))
 
+    # Test to ensure that eraser cannot erase if eraser durability is zero
+    def test_eraser_cannot_erase_when_durability_zero(self):
+        test_durability = 3
+        self.pencil = Pencil(eraser_durability=test_durability)
+        string_to_write = "wrist"
+        string_to_erase = "wrist"
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+
+        self.assertEqual(self.paper.text.count(' '), test_durability)
+
 
 
 
