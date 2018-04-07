@@ -60,12 +60,23 @@ class Pencil(object):
         paper.text = refactored_string
 
     def edit(self, paper, string_to_insert):
+        match = re.search(r'\W\W+', paper.text)
+
+        # Make sure that something has previously been erased before we allow any editing
+        if not match:
+            return
+
+        # Get the number of spaces we have to write the new word with, taking into account leading and trailing spaces
+        space_count = len(match.group(0)) - 2
         paper_text_pieces = re.split(r'\W\W+', paper.text, 1)
 
         paper.text = paper_text_pieces[0].strip() + ' '
 
         for letter in string_to_insert:
             self.write(paper, letter)
+
+        if len(string_to_insert) < space_count:
+            paper.text += ' ' * (space_count - len(string_to_insert))
 
         if len(paper_text_pieces) > 1:
             paper.text += ' ' + paper_text_pieces[1].strip()
