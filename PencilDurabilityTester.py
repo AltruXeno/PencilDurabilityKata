@@ -137,7 +137,7 @@ class TestPencilDurability(unittest.TestCase):
 
         self.pencil.sharpen()
 
-        self.assertNotEquals(self.pencil.start_point_durability, self.pencil.point_durability)
+        self.assertNotEqual(self.pencil.start_point_durability, self.pencil.point_durability)
 
     # Test erasing a word from the page text
     def test_erase_single_word_from_text(self):
@@ -148,6 +148,21 @@ class TestPencilDurability(unittest.TestCase):
         self.pencil.erase(self.paper, string_to_erase)
 
         self.assertEqual(self.paper.text.find(string_to_erase), -1)
+
+    # Test that erasing a word chooses the last written word if more than one
+    def test_erase_last_written_word_if_duplicates(self):
+        string_to_write = "which wrist watches are swiss wrist watches"
+        string_to_erase = "wrist"
+
+        self.pencil.write(self.paper, string_to_write)
+        last_word_position = self.paper.text.rfind(string_to_erase)
+        self.pencil.erase(self.paper, string_to_erase)
+
+        self.assertNotEqual(last_word_position, self.paper.text.rfind(string_to_erase))
+        # A second assert to ensure that we haven't actually deleted all instances of string_to_erase
+        self.assertNotEqual(self.paper.text.rfind(string_to_erase), -1)
+
+
 
 
 

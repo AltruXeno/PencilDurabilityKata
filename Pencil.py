@@ -1,4 +1,5 @@
 
+
 class Pencil(object):
     def __init__(self, point_durability=100, length=3):
         self.start_point_durability = point_durability
@@ -33,4 +34,6 @@ class Pencil(object):
 
     def erase(self, paper, string_to_erase):
         empty_string = ' ' * len(string_to_erase)
-        paper.text = paper.text.replace(string_to_erase, empty_string)
+        string_position = paper.text.rfind(string_to_erase)
+
+        paper.text = empty_string.join(paper.text.rsplit(string_to_erase, 1))
