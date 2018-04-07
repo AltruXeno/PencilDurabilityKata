@@ -4,6 +4,7 @@ class Pencil(object):
     def __init__(self, point_durability=100, length=3):
         self.start_point_durability = point_durability
         self.point_durability = point_durability
+        self.eraser_durability = 100
         self.length = length
 
     def write(self, paper, string_to_write):
@@ -33,7 +34,17 @@ class Pencil(object):
         self.length -= 1
 
     def erase(self, paper, string_to_erase):
-        empty_string = ' ' * len(string_to_erase)
-        string_position = paper.text.rfind(string_to_erase)
+        # Simple check to make sure that the string_to_erase is in paper.text
+        if paper.text.find(string_to_erase) == -1:
+            return
 
-        paper.text = empty_string.join(paper.text.rsplit(string_to_erase, 1))
+        paper_text_pieces = paper.text.rsplit(string_to_erase, 1)
+        refactored_string = paper_text_pieces[0]
+        for letter in string_to_erase:
+            refactored_string += " "
+            self.eraser_durability -= 1
+
+        if len(paper_text_pieces) > 1:
+            refactored_string += paper_text_pieces[1]
+
+        paper.text = refactored_string

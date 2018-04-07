@@ -151,7 +151,7 @@ class TestPencilDurability(unittest.TestCase):
 
     # Test that erasing a word chooses the last written word if more than one
     def test_erase_last_written_word_if_duplicates(self):
-        string_to_write = "which wrist watches are swiss wrist watches"
+        string_to_write = "which wrist watches are swiss wristwatches"
         string_to_erase = "wrist"
 
         self.pencil.write(self.paper, string_to_write)
@@ -162,6 +162,16 @@ class TestPencilDurability(unittest.TestCase):
         # A second assert to ensure that we haven't actually deleted all instances of string_to_erase
         self.assertNotEqual(self.paper.text.rfind(string_to_erase), -1)
 
+    # Test to see erasing characters decreases eraser durability
+    def test_erase_text_decreases_erasor_durability(self):
+        string_to_write = "which wrist watches are swiss wrist watches"
+        string_to_erase = "wrist"
+        eraser_durability = self.pencil.eraser_durability
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+
+        self.assertEqual(self.pencil.eraser_durability, eraser_durability - len(string_to_erase))
 
 
 
