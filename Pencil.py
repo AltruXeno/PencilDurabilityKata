@@ -72,12 +72,26 @@ class Pencil(object):
 
         paper.text = paper_text_pieces[0].strip() + ' '
 
-        for letter in string_to_insert:
-            self.write(paper, letter)
-
-        if len(string_to_insert) < space_count:
-            paper.text += ' ' * (space_count - len(string_to_insert))
+        # Ensure no spaces are missing if the string_to_insert is shorter than the previously erased string
+        for i in range(space_count):
+            if len(string_to_insert) > i:
+                self.write(paper, string_to_insert[i])
+            else:
+                paper.text += ' '
 
         if len(paper_text_pieces) > 1:
-            paper.text += ' ' + paper_text_pieces[1].strip()
+            remaining_text = ' ' + paper_text_pieces[1].strip()
+            # If we have more letters than spaces allotted
+            if len(string_to_insert) > space_count:
+                remaining_string = string_to_insert[space_count:]
+                # For every remaining letter, check to see if we can write it (there is a space), or there is a
+                # conflict (there is already another character there)
+                for i in range(len(remaining_string)):
+                    if remaining_text[i].isspace():
+                        self.write(paper, remaining_string[i])
+                    else:
+                        self.write(paper, '@')
+                paper.text += remaining_text[len(remaining_string):]
+            else:
+                paper.text += remaining_text
 

@@ -232,7 +232,7 @@ class TestPencilDurability(unittest.TestCase):
     def test_pencil_edit_decreases_point_durability(self):
         string_to_write = "which wrist watches"
         string_to_erase = "watches"
-        string_to_insert = "anklets"
+        string_to_insert = "anklet"
 
         self.pencil.write(self.paper, string_to_write)
         point_durability = self.pencil.point_durability
@@ -258,6 +258,34 @@ class TestPencilDurability(unittest.TestCase):
         self.pencil.edit(self.paper, string_to_insert)
 
         self.assertEqual(self.paper.text, expected_string)
+
+    # Test to ensure that letters overwritten letters are replaced with '@'
+    def test_pencil_edit_overwritten_letters_replaced(self):
+        string_to_write = "Which wrists watches are Swiss wrist watches?"
+        string_to_erase = "are"
+        string_to_insert = "agoraphobia"
+
+        # Let's determine how the string coming back should look
+        text_pieces = string_to_write.split(string_to_erase)
+        expected_string = text_pieces[0]
+
+        # determine where the conflicts are
+        expected_string += string_to_insert[:len(string_to_erase)]
+        remaining_string_to_insert = string_to_insert[len(string_to_erase):]
+        for i in range(len(remaining_string_to_insert)):
+            if text_pieces[1][i].isspace():
+                expected_string += remaining_string_to_insert[i]
+            else:
+                expected_string += '@'
+
+        expected_string += text_pieces[1][len(remaining_string_to_insert):]
+
+        self.pencil.write(self.paper, string_to_write)
+        self.pencil.erase(self.paper, string_to_erase)
+        self.pencil.edit(self.paper, string_to_insert)
+
+        self.assertEqual(self.paper.text, expected_string)
+
 
 
 if __name__ == "__main__":
